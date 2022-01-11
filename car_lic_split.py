@@ -1,12 +1,16 @@
 import cv2
 
 
-def car_lic_split(img_path):
-    binary_threshold = 100
-    segmentation_spacing = 0.9
+def car_lic_split(img):
+    # 參數
+    binary_threshold = 90
+    segmentation_spacing = 0.93
 
     # 前處理：灰階、二值化
-    img = cv2.imread(img_path)
+    resize_h = 100
+    height = img.shape[0]
+    scale = img.shape[1] / float(height)
+    img = cv2.resize(img, (int(scale * resize_h), resize_h))
     img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     # cv2.imshow('gray', img_gray)
     # cv2.waitKey(0)
@@ -50,8 +54,7 @@ def car_lic_split(img_path):
 
     n = 1
     count = 0
-    start = 0
-    end = 0
+    char_imgs = []
     while n < width - 1:
         n += 1
         if(white[n] if arg else black[n]) > ((1 - segmentation_spacing) * white_max if arg else (1 - segmentation_spacing) * black_max):
@@ -60,22 +63,32 @@ def car_lic_split(img_path):
             end = find_end(start)
             n = end
             if end - start > 5:
+                # print(start, end)
                 cj = img_thre[1:height, start:end]
 
-                cv2.imwrite('./car_lic_char_img/{0}_{1}.png'.format(d, count), cj)
+                # cv2.imwrite('./car_lic_char_img/{0}.png'.format(n), cj)
+                # cv2.imwrite('./tmp2/{0}.bmp'.format(ii*5+count), cj)
                 # cv2.imshow('cutChar', cj)
                 # cv2.waitKey(0)
                 count += 1
+                char_imgs.append(cj)
+    return char_imgs
 
 
 if __name__ == '__main__':
+    # ii = 7
+    # for ii in range(6):
+    #     img_path = './tmp/{}.bmp'.format(ii)
+    #     car_lic_split(img_path)
+
     data = ["Train01.jpg", "Train05.jpg", "Train09.jpg", "Train13.jpg", "Train17.jpg",
             "Train02.jpg", "Train06.jpg", "Train10.jpg", "Train14.jpg",
             "Train03.jpg", "Train07.jpg", "Train11.jpg", "Train15.jpg",
             "Train04.jpg", "Train08.jpg", "Train12.jpg", "Train16.jpg"]
     for d in data:
         img_path = './car_license_img/'+d
-        car_lic_split(img_path)
+        img = cv2.imread(img_path)
+        car_lic_split(img)
 
     # img_path = './car_license_img/Train02.jpg'
     # car_lic_split(img_path)

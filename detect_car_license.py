@@ -3,11 +3,6 @@ import numpy as np
 
 
 def preprocess(img):
-    # 修改圖片大小
-    resize_h = 800
-    height = img.shape[0]
-    scale = img.shape[1] / float(height)
-    img = cv2.resize(img, (int(scale * resize_h), resize_h))
     # 前處理：包括灰度處理，高斯濾波平滑處理，Sobel提取邊界，影象二值化
     # 對於高斯濾波函式的引數設定，第四個引數設為零，表示不計算y方向的梯度，原因是車牌上的數字在豎方向較長，重點在於得到豎方向的邊界
     # 對於二值化函式的引數設定，第二個引數設為220，是二值化的閾值，是一個經驗值
@@ -31,6 +26,8 @@ def preprocess(img):
     # cv2.imshow("open_img", close_img)
     # cv2.waitKey(0)
 
+    # kernel2 = np.ones((10, 10), np.uint8)
+    # open_img2 = cv2.morphologyEx(open_img, cv2.MORPH_OPEN, kernel2)
     # 由於部分影象得到的輪廓邊緣不整齊，因此再進行一次膨脹操作
     element = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
     dilation_img = cv2.dilate(open_img, element, iterations=3)
@@ -39,14 +36,14 @@ def preprocess(img):
             dilation_img[x, y] = 0
     # cv2.imshow("dilation_img", dilation_img)
     # cv2.waitKey(0)
-    return img
+    return dilation_img
 
 
-def dtc_cat_lic(img):
+def dtc_cat_lic(gray_img):
     # 獲取輪廓
-    contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(gray_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     # 測試邊框識別結果
-    # cv2.drawContours(img, contours, -1, (0, 0, 255), 3)
+    # cv2.drawContours(gray_img, contours, -1, (0, 0, 255), 3)
 
     temp_contours = []
     for contour in contours:
@@ -72,12 +69,13 @@ def capture_car_lic(img, car_plates):
     for car_plate in car_plates:
         row_min, col_min = np.min(car_plate[:, 0, :], axis=0)
         row_max, col_max = np.max(car_plate[:, 0, :], axis=0)
-        row_min -= 20
-        col_min -= 20
-        row_max += 10
-        col_max += 10
+        row_min -= 15
+        col_min -= 10
+        row_max += 8
+        col_max += 3
 
         cv2.rectangle(img, (row_min, col_min), (row_max, col_max), (0, 255, 0), 2)
+        # cv2.imwrite("./dtc_img/" + d, img)
         # cv2.imshow("img", img)
         # cv2.waitKey(0)
         car_license = img[col_min:col_max, row_min:row_max, :]
@@ -86,15 +84,21 @@ def capture_car_lic(img, car_plates):
 
 def main(filename):
     img = cv2.imread(filename)
+    # 修改圖片大小
+    resize_h = 800
+    height = img.shape[0]
+    scale = img.shape[1] / float(height)
+    img = cv2.resize(img, (int(scale * resize_h), resize_h))
     gray_img = preprocess(img)
     car_plates = dtc_cat_lic(gray_img)
 
-    print(filename, len(car_plates))
+    # print(filename, len(car_plates))
     if len(car_plates) == 1:
         car_license = capture_car_lic(img, car_plates)
-        cv2.imwrite("./car_license_img/" + d, car_license)
+        # cv2.imwrite("./car_license_img/" + d, car_license)
         # cv2.imshow("car_license_img.jpg", car_license)
         # cv2.waitKey(0)
+        return car_license
 
 
 if __name__ == '__main__':
