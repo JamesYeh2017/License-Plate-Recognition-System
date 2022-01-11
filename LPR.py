@@ -75,20 +75,43 @@ def cmpHash(hash1, hash2):  # Hash值對比
 def OCR(char_imgs):
     try:
         car_license = ""
+        normal = True
+        start = 0
+        end = 40
+        dash = 3
+        char_imgs_len = len(char_imgs)
+        print(char_imgs_len)
+        if char_imgs_len > 8:
+            normal = False
         for i, char_img in enumerate(char_imgs):
             char_img = cv2.cvtColor(char_img, cv2.COLOR_BGR2RGB)
             result = {}
-            for idx in range(40):
+            if normal:
+                if i <= 2:
+                    start, end = (0, 26)
+                    dash = 3
+                else:
+                    start, end = (30, 40)
+            else:
+                if i <= 3:
+                    start, end = (0, 26)
+                    dash = 4
+                else:
+                    start, end = (30, 40)
+            for idx in range(start, end):
                 img2 = cv2.imread('./template_fonts/{}.bmp'.format(idx))
 
                 hash1 = aHash(char_img)
                 hash2 = aHash(img2)
                 n = cmpHash(hash1, hash2)
                 result[idx] = n
+
             idx = str(min(result, key=result.get))
             if idx in ["26", "27", "28", "29"]:
                 continue
             car_license_char = str(mapping[idx])
+            if i == dash and car_license_char == "L":
+                continue
             if i == 0 and car_license_char == "1":
                 continue
             car_license += car_license_char
