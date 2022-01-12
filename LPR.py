@@ -80,11 +80,13 @@ def OCR(char_imgs):
         end = 40
         dash = 3
         char_imgs_len = len(char_imgs)
-        print(char_imgs_len)
+        # print(char_imgs_len)
         if char_imgs_len > 8:
             normal = False
         for i, char_img in enumerate(char_imgs):
             char_img = cv2.cvtColor(char_img, cv2.COLOR_BGR2RGB)
+            # cv2.imshow('cutChar', char_img)
+            # cv2.waitKey(0)
             result = {}
             if normal:
                 if i <= 2:
@@ -107,18 +109,15 @@ def OCR(char_imgs):
                 result[idx] = n
 
             idx = str(min(result, key=result.get))
+            # print(idx, ": ", result[int(idx)])
             if idx in ["26", "27", "28", "29"]:
                 continue
             car_license_char = str(mapping[idx])
-            if i == dash and car_license_char == "L":
-                continue
-            if i == 0 and car_license_char == "1":
-                continue
             car_license += car_license_char
         car_license_list = list(car_license)
         car_license_list.insert(3, '-')
         car_license = ''.join(car_license_list)
-        print("License Plate: ", car_license)
+        print("License Plate-{}: {}".format(d, car_license))
         return car_license
     except Exception as e:
         print(e)
@@ -135,3 +134,11 @@ if __name__ == '__main__':
     filename = "./img/Train01.jpg"
     if len(sys.argv) > 1:
         main(sys.argv[1])
+    else:
+        data = ["Train01.jpg", "Train02.jpg", "Train03.jpg", "Train04.jpg", "Train05.jpg",
+                "Train06.jpg", "Train07.jpg", "Train08.jpg", "Train09.jpg", "Train10.jpg",
+                "Train11.jpg", "Train12.jpg", "Train13.jpg", "Train14.jpg",
+                "Train15.jpg", "Train16.jpg", "Train17.jpg"]
+        for d in data:
+            main("./img/" + d)
+

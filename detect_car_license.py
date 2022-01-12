@@ -102,10 +102,10 @@ def main(filename):
 
 
 if __name__ == '__main__':
-    data = ["Train01.jpg", "Train05.jpg", "Train09.jpg", "Train13.jpg", "Train17.jpg",
-            "Train02.jpg", "Train06.jpg", "Train10.jpg", "Train14.jpg",
-            "Train03.jpg", "Train07.jpg", "Train11.jpg", "Train15.jpg",
-            "Train04.jpg", "Train08.jpg", "Train12.jpg", "Train16.jpg"]
+    data = ["Train01.jpg", "Train02.jpg", "Train03.jpg", "Train04.jpg", "Train05.jpg",
+            "Train06.jpg", "Train07.jpg", "Train08.jpg", "Train09.jpg", "Train10.jpg",
+            "Train11.jpg", "Train12.jpg", "Train13.jpg", "Train14.jpg",
+            "Train15.jpg", "Train16.jpg", "Train17.jpg"]
 
     # data = ["Train17.jpg", "Train12.jpg", "Train15.jpg"]
     for d in data:

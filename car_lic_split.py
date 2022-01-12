@@ -65,13 +65,31 @@ def car_lic_split(img):
             if end - start > 5:
                 # print(start, end)
                 cj = img_thre[1:height, start:end]
-
-                # cv2.imwrite('./car_lic_char_img/{0}.png'.format(n), cj)
-                # cv2.imwrite('./tmp2/{0}.bmp'.format(ii*5+count), cj)
-                # cv2.imshow('cutChar', cj)
-                # cv2.waitKey(0)
-                count += 1
-                char_imgs.append(cj)
+                x, y = cj.shape
+                bk = 0
+                wt = 0
+                # 遍历二值图，为0则bk+1，否则wt+1
+                for i in range(x):
+                    for j in range(y):
+                        if cj[i, j] == 0:
+                            bk += 1
+                        else:
+                            wt += 1
+                rate1 = round(wt / (x * y) * 100, 2)
+                rate2 = round(bk / (x * y) * 100, 2)
+                if count in [0,  9] and rate1 > 89:
+                    # print("{}白色占比: {}".format((d[:7]+"_"+str(count)), (str(rate1) + '%')))
+                    continue
+                if count in [0, 3, 4] and rate2 > 89:
+                    # print("{}黑色占比: {}".format((d[:7]+"_"+str(count)), (str(rate2) + '%')))
+                    continue
+                else:
+                    # cv2.imwrite('./car_lic_char_img/{0}.png'.format(n), cj)
+                    # cv2.imwrite('./tmp2/{0}.bmp'.format(ii*5+count), cj)
+                    # cv2.imshow('cutChar', cj)
+                    # cv2.waitKey(0)
+                    count += 1
+                    char_imgs.append(cj)
     return char_imgs
 
 
