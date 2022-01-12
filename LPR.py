@@ -117,7 +117,7 @@ def OCR(char_imgs):
         car_license_list = list(car_license)
         car_license_list.insert(3, '-')
         car_license = ''.join(car_license_list)
-        print("License Plate-{}: {}".format(d, car_license))
+        # print("License Plate-{}: {}".format(d, car_license))
         return car_license
     except Exception as e:
         print(e)
@@ -126,7 +126,10 @@ def OCR(char_imgs):
 def main(filename):
     car_license = detect_car_license.main(filename)
     char_imgs = car_lic_split.car_lic_split(car_license)
-    OCR(char_imgs)
+    car_license = OCR(char_imgs)
+    output = "License Plate: " + car_license
+    print(output)
+    return output
 
 
 if __name__ == '__main__':

@@ -1,0 +1,17 @@
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train01.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train02.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train03.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train04.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train05.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train06.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train07.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train08.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train09.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train10.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train11.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train12.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train13.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train14.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train15.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train16.jpg >> DIP11077609.txt
+C:\Users\200405\Anaconda3\python.exe LPR.py ./img/Train17.jpg >> DIP11077609.txt
